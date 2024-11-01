@@ -32,13 +32,16 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build with Maven
+        shell: bash
         run: mvn clean install
 
       - name: Run tests
+        shell: bash
         run: mvn test
 
       # Install SonarScanner
       - name: Install SonarScanner
+        shell: bash
         run: |
           wget -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
           unzip sonar-scanner.zip -d $HOME
