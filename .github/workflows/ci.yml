@@ -1,3 +1,4 @@
+# .github/workflows/ci.yml
 name: Maven Build, Test, and SonarCloud Analysis
 
 on:
@@ -36,27 +37,20 @@ jobs:
       - name: Run tests
         run: mvn test
 
+      # Install SonarScanner
       - name: Install SonarScanner
         run: |
-          curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856.zip
+          wget -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
           unzip sonar-scanner.zip -d $HOME
-        shell: bash
+          echo "$HOME/sonar-scanner-4.6.2.2472-linux/bin" >> $GITHUB_PATH
 
-      - name: Verify SonarScanner Installation
-        run: |
-          ls $HOME/sonar-scanner-4.8.0.2856/bin  # List to check installation
-          $HOME/sonar-scanner-4.8.0.2856/bin/sonar-scanner -v  # Confirm scanner version
-        shell: bash
-
+      # SonarCloud Scan Step
       - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
-          PATH: ${{ runner.home }}/sonar-scanner-4.8.0.2856/bin:${{ env.PATH }}
         run: |
           sonar-scanner \
             -Dsonar.projectKey=James_Busari_as02-test-secure-api-j-p_public \
             -Dsonar.organization=James_Busari \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=$SONAR_TOKEN
-        shell: bash
