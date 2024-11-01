@@ -48,6 +48,7 @@ jobs:
       - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
         run: |
           sonar-scanner \
             -Dsonar.projectKey=James_Busari_as02-test-secure-api-j-p_public \
