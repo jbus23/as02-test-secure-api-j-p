@@ -36,17 +36,17 @@ jobs:
       - name: Run tests
         run: mvn test
 
-      # SonarCloud Scan Step
       - name: Install SonarScanner
         run: |
           curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856.zip
           unzip sonar-scanner.zip -d $HOME
-          export PATH="$HOME/sonar-scanner-4.8.0.2856/bin:$PATH"
+        shell: bash
 
       - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64  # Ensures SonarScanner uses Java 17
+          PATH: ${{ runner.home }}/sonar-scanner-4.8.0.2856/bin:${{ env.PATH }}  # Explicit path setting
         run: |
           sonar-scanner \
             -Dsonar.projectKey=James_Busari_as02-test-secure-api-j-p_public \
