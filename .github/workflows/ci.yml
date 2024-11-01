@@ -49,7 +49,6 @@ jobs:
         shell: bash
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
           PATH: ${{ runner.home }}/sonar-scanner-4.6.2.2472-linux/bin:${{ env.PATH }}
         run: |
           sonar-scanner \
