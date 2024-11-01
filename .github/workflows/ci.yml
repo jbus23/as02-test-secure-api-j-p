@@ -38,13 +38,11 @@ jobs:
         shell: bash
         run: mvn test
 
-      # Install SonarScanner
       - name: Install SonarScanner
         shell: bash
         run: |
           wget -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
           unzip sonar-scanner.zip -d $HOME
-          export PATH="$HOME/sonar-scanner-4.6.2.2472-linux/bin:$PATH"
           echo "$HOME/sonar-scanner-4.6.2.2472-linux/bin" >> $GITHUB_PATH
 
       # SonarCloud Scan Step
@@ -52,7 +50,7 @@ jobs:
         shell: bash
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+          JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64
         run: |
           $HOME/sonar-scanner-4.6.2.2472-linux/bin/sonar-scanner \
             -Dsonar.projectKey=James_Busari_as02-test-secure-api-j-p_public \
