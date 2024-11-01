@@ -46,6 +46,7 @@ jobs:
 
       # SonarCloud Scan Step
       - name: SonarCloud Scan
+        shell: bash
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
