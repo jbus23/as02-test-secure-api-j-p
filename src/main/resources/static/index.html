@@ -10,7 +10,7 @@
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 5px; }
         input { width: 100%; padding: 10px; }
-        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; }
+        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; }
         .result { margin-top: 20px; }
     </style>
 </head>
@@ -19,6 +19,8 @@
 <div class="container">
     <h1>Music Finder</h1>
     <h3>Search for your music here</h3>
+
+    <!-- Song Search Form -->
     <div class="form-group">
         <label for="artist">Artist</label>
         <input type="text" id="artist" placeholder="Enter artist name">
@@ -33,6 +35,19 @@
         <h2>Results:</h2>
         <div id="youtube"></div>
         <div id="lyrics"></div>
+    </div>
+
+    <h3>Search for Artist Information</h3>
+    <!-- Artist Information Form -->
+    <div class="form-group">
+        <label for="artistInfo">Artist</label>
+        <input type="text" id="artistInfo" placeholder="Enter artist name for biography">
+    </div>
+    <button onclick="fetchArtistInfo()">Get Artist Info</button>
+
+    <div class="result" id="artistResult">
+        <h2>Artist Information:</h2>
+        <div id="artistBio"></div>
     </div>
 </div>
 
@@ -57,6 +72,29 @@
                 `;
             })
             .catch(error => console.error('Error:', error));
+    }
+
+    function fetchArtistInfo() {
+        const artistName = document.getElementById('artistInfo').value;
+
+        fetch(`/artist/${encodeURIComponent(artistName)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Artist not found");
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Display artist bio
+                document.getElementById('artistBio').innerHTML = `
+                    <h3>${data.title}</h3>
+                    <p>${data.extract}</p>
+                `;
+            })
+            .catch(error => {
+                document.getElementById('artistBio').innerHTML = `<p>${error.message}</p>`;
+                console.error('Error:', error);
+            });
     }
 </script>
 
