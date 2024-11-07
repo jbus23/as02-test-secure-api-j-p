@@ -1,4 +1,4 @@
-package com.example.musicFinder;
+package com.example.musicFinder.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
